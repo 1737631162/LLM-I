@@ -41,16 +41,16 @@ QK^T = (b, heads, sql_len, d/heads)@(b, heads, d/heads, sql_len)=(b, heads, sql_
 answer1：当d变大的时候，QK^T的方差会变大，方差变大会导致元素之间的差值变大，从而导致softmax退化为argmax，当只有一个值为1的元素，其他都为0的话，反向传播的梯度会变为0，也就是梯度消失产生。  
 answer2：为了趋近于完美的x服从均值为0方差为1的标准分布。  
 假设分布满足  
-$$
+$$  
 x \sim \mathcal{N}(0, 1)
-$$
+$$  
 那么  
 $$ Var(x) = \mathbb{E}[x^2] - (\mathbb{E}[x])^2 = \mathbb{E}[x^2] \quad \text{（因为 $\mathbb{E}[x] = 0$）} $$
 设要除以的值为x，为了满足Var(QK/x)=1， 有
-$$
+$$  
 \frac{1}{x^2} Var(QK)=\frac{1}{x^2} * \sum_{i = 1}^{d_k} Var[{Q_i}]Var[{K_i}] = \frac{1}{x^2} * {d_k} 
-$$
+$$  
 要使得上式趋近于1，那么  
-$$
+$$  
 x=\frac{1}{\sqrt{d}}
-$$
+$$  
