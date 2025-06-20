@@ -32,4 +32,5 @@ QK^T = (b, sql_len, heads, d/heads)@(b, d/heads, heads, sql_len)=(b, sql_len, sq
 ##  目前主流的attention方法
 
 
-## 为什么要除以$\sqrt{d}$
+## 为什么点积模型要做缩放
+为什么要除以$\sqrt{d}$
