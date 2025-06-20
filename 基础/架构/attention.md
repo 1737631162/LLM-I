@@ -30,3 +30,6 @@ QK^T = (b, sql_len, heads, d/heads)@(b, d/heads, heads, sql_len)=(b, sql_len, sq
 每个 head 的计算复杂度是 O(n²(d/h))，总共 h 个 head，并行执行。
 
 ##  目前主流的attention方法
+
+
+## 为什么要除以$\sqrt{d}$
