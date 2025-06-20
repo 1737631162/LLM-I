@@ -17,11 +17,16 @@ $$
 |单头|	512 × 512 × 768	|串行或单块	|
 |多头|12 × (512 × 512 × 64)	|并行	|
 
+单头：
 QK^T = (b, sql_len, d)@(b, d, sql_len)=(b, sql_len, sql_len)       这个点积需要做 d 次乘法 + d-1 次加法 ≈ d 次操作, 总计算量也就是 sql_len * sql_len * d 
+
+多头：
+QK^T = (b, sql_len, heads, d/heads)@(b, d/heads, heads, sql_len)=(b, sql_len, sql_len)       这个点积需要做 d/heads 次乘法 + d/heads-1 次加法 ≈ d/heads 次操作, 总计算量也就是 heads * (sql_len * sql_len * d/heads)
 
 多头注意力的优势在于：
 更好的建模不同子空间的信息。
 可以并行计算，提升训练效率。
 每个 head 的维度较小，减少了 attention matrix 的计算量（即 QK^T 的计算复杂度从 O(n²*d) 变成 O(n²*(d/h))）。
+每个 head 的计算复杂度是 O(n²(d/h))，总共 h 个 head，并行执行。
 
 ##  目前主流的attention方法
