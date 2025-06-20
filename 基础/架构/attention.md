@@ -46,7 +46,7 @@ x \sim \mathcal{N}(0, 1)
 $$  
 那么  
 $$ Var(x) = \mathbb{E}[x^2] - (\mathbb{E}[x])^2 = \mathbb{E}[x^2] \quad \text{（因为 $\mathbb{E}[x] = 0$）} $$
-设要除以的值为x，为了满足Var(QK/x)=1， 有
+设要除以的值为x，为了满足Var(QK/x)=1， 有  
 $$  
 \frac{1}{x^2} Var(QK)=\frac{1}{x^2} * \sum_{i = 1}^{d_k} Var[{Q_i}]Var[{K_i}] = \frac{1}{x^2} * {d_k}   
 $$  
