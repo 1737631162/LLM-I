@@ -26,8 +26,8 @@ QK^T = (b, heads, sql_len, d/heads)@(b, heads, d/heads, sql_len)=(b, heads, sql_
 多头注意力的优势在于：
 更好的建模不同子空间的信息。
 可以并行计算，提升训练效率。
-每个 head 的维度较小，减少了 attention matrix 的计算量（即 QK^T 的计算复杂度从 O(n²*d) 变成 O(n²*(d/h))）。
-每个 head 的计算复杂度是 O(n²(d/h))，总共 h 个 head，并行执行。
+每个 head 的维度较小，减少了 attention matrix 的计算量（即 QK^T 的计算复杂度从 O(b*n²*d) 变成 O(b*n²*(d/h))）。
+每个 head 的计算复杂度是 O(b*n²(d/h))，总共 h 个 head，并行执行。
 
 ##  目前主流的attention方法
 
