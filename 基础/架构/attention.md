@@ -18,10 +18,10 @@ $$
 |多头|12 × (512 × 512 × 64)	|并行	|
 
 单头：
-QK^T = (b, sql_len, d)@(b, d, sql_len)=(b, sql_len, sql_len)       这个点积需要做 d 次乘法 + d-1 次加法 ≈ d 次操作, 总计算量也就是 sql_len * sql_len * d 
+QK^T = (b, sql_len, d)@(b, d, sql_len)=(b, sql_len, sql_len)       这个点积需要做 d 次乘法 + d-1 次加法 ≈ d 次操作, 总计算量也就是 b * (sql_len * sql_len * d)
 
 多头：
-QK^T = (b, heads, sql_len, d/heads)@(b, heads, d/heads, sql_len)=(b, heads, sql_len, sql_len)       这个点积需要做 d/heads 次乘法 + d/heads-1 次加法 ≈ d/heads 次操作, 总计算量也就是 heads * (sql_len * sql_len * d/heads)
+QK^T = (b, heads, sql_len, d/heads)@(b, heads, d/heads, sql_len)=(b, heads, sql_len, sql_len)       这个点积需要做 d/heads 次乘法 + d/heads-1 次加法 ≈ d/heads 次操作, 总计算量也就是 b * (heads * (sql_len * sql_len * d/heads))
 
 多头注意力的优势在于：
 更好的建模不同子空间的信息。
