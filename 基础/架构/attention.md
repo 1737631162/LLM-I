@@ -29,8 +29,6 @@ QK^T = (b, heads, sql_len, d/heads)@(b, heads, d/heads, sql_len)=(b, heads, sql_
 每个 head 的维度较小，减少了 attention matrix 的计算量（即 QK^T 的计算复杂度从 O(b*n²*d) 变成 O(b*n²*(d/h))）。
 每个 head 的计算复杂度是 O(b*n²(d/h))，总共 h 个 head，并行执行。
 
-##  目前主流的attention方法
-
 
 ## 为什么点积模型要做缩放
 为什么要除以$$\sqrt{d}$$  
@@ -62,3 +60,18 @@ $$
 $$  
 x=\frac{1}{\sqrt{d}}  
 $$  
+
+
+##  目前主流的attention方法
+- MHA（多头注意力）
+建模不同子空间的信息，从而均衡同一种注意力机制可能产生的偏差，让词义拥有来自更多元的表达
+
+- MQA（多查询注意力）
+MQA 让所有的头之间共享同一份 Key 和 Value 矩阵，每个头正常的只单独保留了一份 Query 参数，从而大大减少 Key 和 Value 矩阵的参数量，但是会带来精度上的损失。
+
+- GQA（分组查询注意力）
+介于MHA和MQA之间  
+Query 被分成多个组，每组内的多个查询头共享一个 Key 和 Value 向量。
+
+
+
