@@ -73,5 +73,38 @@ MQA 让所有的头之间共享同一份 Key 和 Value 矩阵，每个头正常�
 介于MHA和MQA之间  
 Query 被分成多个组，每组内的多个查询头共享一个 Key 和 Value 向量。
 
+## FlashAttention
+核心思想：尽可能减少冗余计算和访问内存。  
+FlashAttention V1：采用了一种基于块（block）的矩阵乘法策略，将输入分割成多个小块，然后分块进行计算。这种方法减少了同时需要加载到高速缓存或内存中的数据量，从而有效地降低了内存带宽需求，并提高了计算效率。  
+FlashAttention V2：引入并行扫描算法和硬件感知优化，实现接近线性时间的实际性能，特别适合处理超长序列。  
 
+参考glm4的modeling_chatglm实现  
+安装flash_attn（需要考虑torch版本及cuda驱动版本）  
+```
+try:
+    from transformers.utils import is_flash_attn_greater_or_equal_2_10, is_flash_attn_2_available
 
+    if is_flash_attn_2_available():
+        from flash_attn import flash_attn_func, flash_attn_varlen_func
+        from flash_attn.bert_padding import index_first_axis, pad_input, unpad_input  # noqa
+except:
+    pass
+
+if attention_mask is not None:
+    attn_output_unpad = flash_attn_varlen_func(
+        query_states,
+        key_states,
+        value_states,
+        cu_seqlens_q=cu_seqlens_q,
+        cu_seqlens_k=cu_seqlens_k,
+        max_seqlen_q=max_seqlen_in_batch_q,
+        max_seqlen_k=max_seqlen_in_batch_k,
+        dropout_p=dropout,
+        softmax_scale=None,
+        causal=causal,
+    )
+else:
+    attn_output = flash_attn_func(
+        query_states, key_states, value_states, dropout, softmax_scale=None, causal=causal
+    )
+```
